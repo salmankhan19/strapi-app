@@ -5,6 +5,31 @@ import Image from "next/image";
 import Img from "../../public/bg.jpg";
 import { fetchTabs } from "./utils/fetchTabs";
 
+// Hard-coded fallback data
+const fallbackTabs = [
+  {
+    label: "Industry experts",
+    value:
+      "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ea, recusandae nesciunt. Mollitia quidem.",
+  },
+  {
+    label: "Dedicated Team",
+    value: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+  },
+  {
+    label: "Outcome focused",
+    value: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+  },
+  {
+    label: "High Quality Service",
+    value: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+  },
+  {
+    label: "Cyber Security Expert",
+    value: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
+  },
+];
+
 export default function ChooseUsSection() {
   const [tabs, setTabs] = React.useState([]);
   const [activeTab, setActiveTab] = React.useState(0);
@@ -17,6 +42,9 @@ export default function ChooseUsSection() {
 
     getTabs();
   }, []);
+
+  // Use fallback data if tabs are empty
+  const currentTabs = tabs.length > 0 ? tabs : fallbackTabs;
 
   return (
     <section className="py-12 px-4 md:px-6 lg:px-8 bg-white">
@@ -36,13 +64,19 @@ export default function ChooseUsSection() {
         <div className="flex flex-col lg:flex-row gap-8 items-center justify-between">
           <div className="flex justify-center items-center p-4">
             <div className="relative flex items-center">
-              {tabs.length > 0 && (
+              {currentTabs.length > 0 && (
                 <div className="circle bg-red-500 z-10 shadow-md">
                   <div className="content text-white p-6 text-center">
                     <h2 className="text-xl font-bold mb-2">
-                    {tabs[activeTab].label ? tabs[activeTab].label : "Tab Label Here"}
+                      {currentTabs[activeTab].label
+                        ? currentTabs[activeTab].label
+                        : "Tab Label Here"}
                     </h2>
-                    {tabs[activeTab].value ? tabs[activeTab].value : "Tab Balue Here"}
+                    <p className="text-sm">
+                      {currentTabs[activeTab].value
+                        ? currentTabs[activeTab].value
+                        : "Tab Value Here"}
+                    </p>
                   </div>
                 </div>
               )}
@@ -60,7 +94,7 @@ export default function ChooseUsSection() {
 
           <div className="w-full lg:w-1/2">
             <div className="space-y-4">
-              {tabs.map((tab, index) => (
+              {currentTabs.map((tab, index) => (
                 <button
                   key={index}
                   onClick={() => setActiveTab(index)}
@@ -71,7 +105,7 @@ export default function ChooseUsSection() {
                   }`}
                 >
                   <span className="mr-2">&lt;</span>
-                  {tab.label}
+                  {tab.label ? tab.label : "Tab Label Here"}
                 </button>
               ))}
             </div>
